@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BACKEND_URL = process.env.BACKEND_URL!;
 
-const PUBLIC_PATHS = ["/login", "/verify-otp", "/_next", "/favicon.ico", "/api/authorization"];
+const PUBLIC_PATHS = ["/login", "/verify-otp", "/_next", "/favicon.ico", "/api/authorization", "/signup"];
 
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some((p) => pathname.startsWith(p));

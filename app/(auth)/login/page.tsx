@@ -10,7 +10,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
@@ -34,7 +34,9 @@ export default function LoginPage() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-white">Sign in</h2>
+        <h2 className="text-xl font-semibold text-white">Sign in /  <button className="text-indigo-300 hover:text-indigo-400 transition cursor-pointer" type="button" onClick={() => router.push("/signup")}>
+          Sign Up
+        </button></h2>
         <p className="text-sm text-slate-400 mt-1">
           We&apos;ll send a one-time password to your mobile.
         </p>

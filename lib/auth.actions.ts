@@ -2,14 +2,36 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import type { SendOtpResponse, VerifyOtpResponse } from "@/types/auth";
+import type { ApiResponse, SendOtpResponse, VerifyOtpResponse } from "@/types/auth";
+import { sendOTPToPhone } from "./otp";
+
+type SignupPayload = {
+  userName: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+
+  mobileNumber: string;
+  email: string;
+
+  address?: string;
+
+  countryId: number;
+  stateId: number;
+  cityId: number;
+
+  pinCode?: string;
+
+  genderId: number;
+};
+
+type SignUpResponse = {
+  Authorized: boolean;
+  MobileNumber: string;
+}
 
 const BACKEND_URL = process.env.BACKEND_URL!;
 
-/**
- * Step 1: Send OTP to mobile number.
- * Returns error message or null on success.
- */
 export async function sendOtpAction(
   mobile: string
 ): Promise<{ error: string | null }> {
@@ -27,6 +49,8 @@ export async function sendOtpAction(
     if (!res.ok) {
       return { error: data.message ?? `Failed to send OTP. Try again.` };
     }
+
+    await sendOTPToPhone(mobile);
 
     return { error: null };
   } catch {
@@ -103,7 +127,7 @@ export async function logoutAction(): Promise<void> {
       .map((c) => `${c.name}=${c.value}`)
       .join("; ");
 
-    await fetch(`${BACKEND_URL}/Auth/Logout`, {
+    await fetch(`${BACKEND_URL}/Authorization/LogOut`, {
       method: "POST",
       headers: { cookie: cookieHeader },
       cache: "no-store",
@@ -117,4 +141,49 @@ export async function logoutAction(): Promise<void> {
   cookieStore.delete("RefreshToken");
 
   redirect("/login");
+}
+
+export async function sendSignupOtpAction(payload: SignupPayload): Promise<{ error: string | null }> {
+  try {
+    const res = await fetch(
+      `${BACKEND_URL}/Authorization/SignUp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          UserName: payload.userName,
+          FirstName: payload.firstName,
+          MiddleName: payload.middleName,
+          LastName: payload.lastName,
+          MobileNumber: payload.mobileNumber,
+          Email: payload.email,
+          Address: payload.address,
+          CountryId: payload.countryId,
+          StateId: payload.stateId,
+          CityId: payload.cityId,
+          PinCode: payload.pinCode,
+          GenderId: payload.genderId,
+        }),
+        cache: "no-store",
+      }
+    );
+
+    const data: ApiResponse<SignUpResponse> = await res.json();
+    
+    if (!res.ok) {
+      return {
+        error: data.Message,
+      };
+    }
+
+    return {
+      error: null,
+    };
+  } catch {
+    return {
+      error: "Network error. Please check your connection.",
+    };
+  }
 }
