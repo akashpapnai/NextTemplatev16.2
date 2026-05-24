@@ -41,7 +41,7 @@ function parseSetCookie(raw: string): { name: string; value: string } | null {
 
 async function attemptRefresh(request: NextRequest): Promise<NextResponse | null> {
   try {
-    const refreshRes = await fetch(`${BACKEND_URL}/api/v1/Authorization/RefreshToken`, {
+    const refreshRes = await fetch(`${BACKEND_URL}/Authorization/RefreshToken`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

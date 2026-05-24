@@ -8,7 +8,7 @@ export async function getSession(): Promise<User | null> {
 
   if (!authToken) return null;
 
-  const { data, error } = await apiFetch<ApiResponse<User>>("/api/v1/Authorization/GetProfileDetails");
+  const { data, error } = await apiFetch<ApiResponse<User>>("/Authorization/GetProfileDetails");
 
   if (error || !data) return null;
 

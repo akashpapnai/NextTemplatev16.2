@@ -12,7 +12,7 @@ export async function POST() {
 
   // Notify backend (optional — fire and forget)
   try {
-    await fetch(`${BACKEND_URL}/api/v1/Auth/Logout`, {
+    await fetch(`${BACKEND_URL}/Auth/Logout`, {
       method: "POST",
       headers: { cookie: cookieHeader },
       cache: "no-store",

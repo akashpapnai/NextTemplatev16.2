@@ -14,7 +14,8 @@ export async function sendOtpAction(
   mobile: string
 ): Promise<{ error: string | null }> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/v1/Authorization/Login`, {
+    console.log(`${BACKEND_URL}/Authorization/Login`);
+    const res = await fetch(`${BACKEND_URL}/Authorization/Login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ MobileNumber: mobile }),
@@ -40,7 +41,7 @@ export async function verifyOtpAction(
   let setCookieHeaders: string[] = [];
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/v1/Authorization/VerifyOTP`, {
+    const res = await fetch(`${BACKEND_URL}/Authorization/VerifyOTP`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ MobileNumber: mobile, OTP: otp }),
@@ -102,7 +103,7 @@ export async function logoutAction(): Promise<void> {
       .map((c) => `${c.name}=${c.value}`)
       .join("; ");
 
-    await fetch(`${BACKEND_URL}/api/v1/Auth/Logout`, {
+    await fetch(`${BACKEND_URL}/Auth/Logout`, {
       method: "POST",
       headers: { cookie: cookieHeader },
       cache: "no-store",

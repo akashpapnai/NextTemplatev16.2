@@ -139,7 +139,7 @@ function VerifyOtpForm() {
         <button
           type="submit"
           disabled={isPending || otp.length < OTP_LENGTH}
-          className="w-full bg-indigo-500 hover:bg-indigo-600 disabled:bg-indigo-500/40 disabled:cursor-not-allowed text-white font-medium rounded-xl py-3 text-sm transition-colors duration-150 flex items-center justify-center gap-2"
+          className="w-full bg-indigo-500 hover:bg-indigo-600 disabled:bg-indigo-500/40 disabled:cursor-not-allowed text-white font-medium rounded-xl py-3 text-sm transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer"
         >
           {isPending ? (
             <>
@@ -158,7 +158,7 @@ function VerifyOtpForm() {
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+            className="text-sm text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
           >
             ← Change number
           </button>
@@ -166,7 +166,7 @@ function VerifyOtpForm() {
             type="button"
             onClick={handleResend}
             disabled={cooldown > 0 || isResending}
-            className="text-sm text-indigo-400 hover:text-indigo-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-colors"
+            className="text-sm text-indigo-400 hover:text-indigo-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             {isResending
               ? "Resending…"
